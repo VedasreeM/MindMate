@@ -4,18 +4,20 @@ const userInput = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
 
 // Function to handle sending messages
-function sendMessage() {
+async function sendMessage() {
     const message = userInput.value.trim();
     if (message) {
-        // Display user message
         displayMessage("You: " + message);
         userInput.value = ""; // Clear input field
         
-        // Simulate a response from the chatbot
-        setTimeout(() => {
-            const botResponse = getBotResponse(message);
-            displayMessage("MindMate: " + botResponse);
-        }, 1000); // Simulate a 1-second delay for response
+        // Get response from Gemini API
+        const botResponse = await getGeminiResponse(message);
+        displayMessage("MindMate: " + botResponse);
+        
+        // Optionally, check in on user mood after certain messages
+        if (message.toLowerCase().includes("how am i") || message.toLowerCase().includes("feel")) {
+            displayMessage("MindMate: How are you feeling today? Feel free to share!");
+        }
     }
 }
 
@@ -27,18 +29,25 @@ function displayMessage(message) {
     chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
 }
 
-// Function to generate bot responses (updated example)
-function getBotResponse(userMessage) {
-    // Convert the message to lowercase for easier comparison
-    const lowerCaseMessage = userMessage.toLowerCase();
-    
-    // Simple responses based on user input
-    if (lowerCaseMessage.includes("hi") || lowerCaseMessage.includes("hello")) {
-        return "Hi there! How can I help you today?";
-    } else if (lowerCaseMessage.includes("how are you")) {
-        return "I'm just a program, but I'm here to help you!";
+// Function to get response from Gemini API
+async function getGeminiResponse(userMessage) {
+    const apiUrl = 'YOUR_GEMINI_API_ENDPOINT'; // Replace with your actual endpoint
+    const apiKey = 'YOUR_API_KEY'; // Replace with your API key
+
+    const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({ message: userMessage })
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        return data.response; // Adjust based on actual response structure
     } else {
-        return "I'm not sure how to respond to that. Can you please elaborate?";
+        return "I'm having trouble connecting to my support system right now.";
     }
 }
 
@@ -51,3 +60,8 @@ userInput.addEventListener("keypress", function(event) {
         sendMessage();
     }
 });
+
+// Function to periodically check in on the user
+setInterval(() => {
+    displayMessage("MindMate: Just checking in! How are you feeling right now?");
+}, 60000 * 10); // Check in every 10 minutes
