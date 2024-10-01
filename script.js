@@ -27,12 +27,15 @@ function displayMessage(message) {
     chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
 }
 
-// Function to generate bot responses (simple example)
+// Function to generate bot responses (updated example)
 function getBotResponse(userMessage) {
-    // Simple responses based on user input (you can expand this)
-    if (userMessage.toLowerCase().includes("hello")) {
+    // Convert the message to lowercase for easier comparison
+    const lowerCaseMessage = userMessage.toLowerCase();
+    
+    // Simple responses based on user input
+    if (lowerCaseMessage.includes("hi") || lowerCaseMessage.includes("hello")) {
         return "Hi there! How can I help you today?";
-    } else if (userMessage.toLowerCase().includes("how are you")) {
+    } else if (lowerCaseMessage.includes("how are you")) {
         return "I'm just a program, but I'm here to help you!";
     } else {
         return "I'm not sure how to respond to that. Can you please elaborate?";
