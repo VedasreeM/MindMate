@@ -1,67 +1,59 @@
-// Get references to the DOM elements
-const chatBox = document.getElementById("chat-box");
-const userInput = document.getElementById("user-input");
-const sendBtn = document.getElementById("send-btn");
-
 // Function to handle sending messages
-async function sendMessage() {
-    const message = userInput.value.trim();
-    if (message) {
-        displayMessage("You: " + message);
-        userInput.value = ""; // Clear input field
-        
-        // Get response from Gemini API
-        const botResponse = await getGeminiResponse(message);
-        displayMessage("MindMate: " + botResponse);
-        
-        // Optionally, check in on user mood after certain messages
-        if (message.toLowerCase().includes("how am i") || message.toLowerCase().includes("feel")) {
-            displayMessage("MindMate: How are you feeling today? Feel free to share!");
-        }
-    }
+function sendMessage() {
+    const userInput = document.getElementById("user-input");
+    const userMessage = userInput.value;
+
+    if (userMessage.trim() === "") return;
+
+    // Display user message
+    displayMessage(userMessage, "user");
+
+    // Clear input field
+    userInput.value = "";
+
+    // Get bot response
+    const botResponse = getBotResponse(userMessage);
+    displayMessage(botResponse, "bot");
 }
 
 // Function to display messages in the chat box
-function displayMessage(message) {
+function displayMessage(message, sender) {
+    const chatBox = document.getElementById("chat-box");
     const messageElement = document.createElement("div");
+    messageElement.className = sender;
     messageElement.textContent = message;
     chatBox.appendChild(messageElement);
-    chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
+    chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
 }
 
-// Function to get response from Gemini API
-async function getGeminiResponse(userMessage) {
-    const apiUrl = 'YOUR_GEMINI_API_ENDPOINT'; // Replace with your actual endpoint
-    const apiKey = 'YOUR_API_KEY'; // Replace with your API key
+// Simple rule-based responses
+function getBotResponse(message) {
+    const lowerCaseMessage = message.toLowerCase();
 
-    const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({ message: userMessage })
-    });
-
-    if (response.ok) {
-        const data = await response.json();
-        return data.response; // Adjust based on actual response structure
+    // Define responses
+    if (lowerCaseMessage.includes("hi") || lowerCaseMessage.includes("hello")) {
+        return "Hello! How can I assist you today?";
+    } else if (lowerCaseMessage.includes("how are you")) {
+        return "I'm here to help! How are you feeling today?";
+    } else if (lowerCaseMessage.includes("help")) {
+        return "Sure! I'm here for you. Please tell me what's on your mind.";
+    } else if (lowerCaseMessage.includes("sad") || lowerCaseMessage.includes("depressed")) {
+        return "I'm sorry to hear that. It's okay to feel this way. Let's talk about it.";
+    } else if (lowerCaseMessage.includes("happy")) {
+        return "That's great to hear! What made you feel happy today?";
+    } else if (lowerCaseMessage.includes("bye")) {
+        return "Goodbye! Take care, and remember I'm here whenever you need to talk.";
     } else {
-        return "I'm having trouble connecting to my support system right now.";
+        return "I'm not sure how to respond to that. Can you please elaborate?";
     }
 }
 
-// Event listener for send button
-sendBtn.addEventListener("click", sendMessage);
+// Add event listener to the send button
+document.getElementById("send-btn").addEventListener("click", sendMessage);
 
-// Event listener for 'Enter' key
-userInput.addEventListener("keypress", function(event) {
+// Optional: Allow sending messages with the Enter key
+document.getElementById("user-input").addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
         sendMessage();
     }
 });
-
-// Function to periodically check in on the user
-setInterval(() => {
-    displayMessage("MindMate: Just checking in! How are you feeling right now?");
-}, 60000 * 10); // Check in every 10 minutes
