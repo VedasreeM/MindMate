@@ -1,4 +1,29 @@
-// Simple rule-based responses
+function sendMessage() {
+    const userInput = document.getElementById("user-input");
+    const userMessage = userInput.value;
+
+    if (userMessage.trim() === "") return; // Prevent sending empty messages
+
+    // Display user message
+    displayMessage(userMessage, "user");
+
+    // Clear input field
+    userInput.value = "";
+
+    // Get bot response
+    const botResponse = getBotResponse(userMessage);
+    displayMessage(botResponse, "bot");
+}
+
+function displayMessage(message, sender) {
+    const chatBox = document.getElementById("chat-box");
+    const messageElement = document.createElement("div");
+    messageElement.className = sender;
+    messageElement.innerHTML = message; // Using innerHTML to allow line breaks
+    chatBox.appendChild(messageElement);
+    chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
+}
+
 function getBotResponse(message) {
     const lowerCaseMessage = message.toLowerCase();
 
@@ -20,7 +45,7 @@ function getBotResponse(message) {
     } else if (lowerCaseMessage.includes("avoid") || lowerCaseMessage.includes("avoiding")) {
         return "It's okay, buddy, I'm here to listen if you want to share more.";
     } else if (lowerCaseMessage.includes("my friends are not talking to me")) {
-        return `It must feel really frustrating, but here’s something you can try, buddy:<br><br>
+        return `It must feel really frustrating, buddy:<br><br>
         - Reach out calmly: Choose one or two friends and talk to them privately. Let them know you’ve noticed some distance and ask if something’s going on.<br>
         - Be open but not accusatory: Use “I feel” statements, like "I feel a bit left out lately" instead of "You are ignoring me." This helps avoid defensiveness.<br>
         - Give them space: Sometimes people need a little time to process, so after you’ve spoken, allow them space to respond at their own pace.<br>
@@ -33,3 +58,13 @@ function getBotResponse(message) {
         return "I'm not sure how to respond to that. Can you please elaborate?";
     }
 }
+
+// Add event listener to the send button
+document.getElementById("send-btn").addEventListener("click", sendMessage);
+
+// Optional: Allow sending messages with the Enter key
+document.getElementById("user-input").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+});
