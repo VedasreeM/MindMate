@@ -41,6 +41,15 @@ function getBotResponse(message) {
         return "I'm sorry to hear that. It's okay to feel this way. Let's talk about it.";
     } else if (lowerCaseMessage.includes("happy")) {
         return "That's great to hear! What made you feel happy today?";
+    }
+    else if (lowerCaseMessage.includes("moodoff||not ok")){
+        return "what happend buddy? I am here for you to talk...";
+    }
+    else if (lowerCaseMessage.includes("lonely")){
+        return "I'm really sorry to hear that you're alone. It's important to talk about it. I'm here to listen if you want to share more.";
+    }
+    
+    
     } else if (lowerCaseMessage.includes("bye")) {
         return "Goodbye! Take care, and remember I'm here whenever you need to talk.";
     } else {
