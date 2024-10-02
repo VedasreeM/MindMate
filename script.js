@@ -41,16 +41,11 @@ function getBotResponse(message) {
         return "I'm sorry to hear that. It's okay to feel this way. Let's talk about it.";
     } else if (lowerCaseMessage.includes("happy")) {
         return "That's great to hear! What made you feel happy today?";
-    }
-    else if (lowerCaseMessage.includes("moodoff||not ok")){
-        return "what happend buddy? I am here for you to talk...";
-    }
-    else if (lowerCaseMessage.includes("lonely")){
+    } else if (lowerCaseMessage.includes("moodoff") || lowerCaseMessage.includes("not ok")) {
+        return "What happened, buddy? I am here for you to talk...";
+    } else if (lowerCaseMessage.includes("lonely")) {
         return "I'm really sorry to hear that you're alone. It's important to talk about it. I'm here to listen if you want to share more.";
-    }
-    
-    
-     else if (lowerCaseMessage.includes("bye")) {
+    } else if (lowerCaseMessage.includes("bye")) {
         return "Goodbye! Take care, and remember I'm here whenever you need to talk.";
     } else {
         return "I'm not sure how to respond to that. Can you please elaborate?";
@@ -60,9 +55,10 @@ function getBotResponse(message) {
 // Add event listener to the send button
 document.getElementById("send-btn").addEventListener("click", sendMessage);
 
-// Optional: Allow sending messages with the Enter key
-document.getElementById("user-input").addEventListener("keypress", function(event) {
+// Allow sending messages with the Enter key
+document.getElementById("user-input").addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
+        event.preventDefault(); // Prevent the default action of Enter
         sendMessage();
     }
 });
