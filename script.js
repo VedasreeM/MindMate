@@ -45,6 +45,17 @@ function getBotResponse(message) {
         return "What happened, buddy? I am here for you to talk...";
     } else if (lowerCaseMessage.includes("lonely")) {
         return "I'm really sorry to hear that you're alone. It's important to talk about it. I'm here to listen if you want to share more.";
+    } else if (lowerCaseMessage.includes("avoid") || lowerCaseMessage.includes("avoiding")) {
+        return "It's okay, buddy, I'm here to listen if you want to share more.";
+    } else if (lowerCaseMessage.includes("my friends are not talking to me")) {
+        return `It must feel really frustrating, but here’s something you can try, buddy:
+
+- Reach out calmly: Choose one or two friends and talk to them privately. Let them know you’ve noticed some distance and ask if something’s going on.
+- Be open but not accusatory: Use “I feel” statements, like "I feel a bit left out lately" instead of "You are ignoring me." This helps avoid defensiveness.
+- Give them space: Sometimes people need a little time to process, so after you’ve spoken, allow them space to respond at their own pace.
+- Focus on yourself: Engage in activities that make you feel happy and fulfilled. It can boost your mood and confidence while you wait for things to resolve.`;
+    } else if (lowerCaseMessage.includes("thank you") || lowerCaseMessage.includes("thanks")) {
+        return "Come whenever you need me, buddy. Thank you!";
     } else if (lowerCaseMessage.includes("bye")) {
         return "Goodbye! Take care, and remember I'm here whenever you need to talk.";
     } else {
