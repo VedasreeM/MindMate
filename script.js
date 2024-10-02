@@ -20,11 +20,12 @@ function getBotResponse(message) {
     } else if (lowerCaseMessage.includes("avoid") || lowerCaseMessage.includes("avoiding")) {
         return "It's okay, buddy, I'm here to listen if you want to share more.";
     } else if (lowerCaseMessage.includes("my friends are not talking to me")) {
-        return `It must feel really frustrating, but here’s something you can try, buddy:<br><br>
-        - Reach out calmly: Choose one or two friends and talk to them privately. Let them know you’ve noticed some distance and ask if something’s going on.<br>
-        - Be open but not accusatory: Use “I feel” statements, like "I feel a bit left out lately" instead of "You are ignoring me." This helps avoid defensiveness.<br>
-        - Give them space: Sometimes people need a little time to process, so after you’ve spoken, allow them space to respond at their own pace.<br>
-        - Focus on yourself: Engage in activities that make you feel happy and fulfilled. It can boost your mood and confidence while you wait for things to resolve.`;
+        return `It must feel really frustrating, but here’s something you can try, buddy:<br><ul>
+            <li>Reach out calmly: Choose one or two friends and talk to them privately. Let them know you’ve noticed some distance and ask if something’s going on.</li>
+            <li>Be open but not accusatory: Use “I feel” statements, like "I feel a bit left out lately" instead of "You are ignoring me." This helps avoid defensiveness.</li>
+            <li>Give them space: Sometimes people need a little time to process, so after you’ve spoken, allow them space to respond at their own pace.</li>
+            <li>Focus on yourself: Engage in activities that make you feel happy and fulfilled. It can boost your mood and confidence while you wait for things to resolve.</li>
+        </ul>`;
     } else if (lowerCaseMessage.includes("thank you") || lowerCaseMessage.includes("thanks")) {
         return "Come whenever you need me, buddy. Thank you!";
     } else if (lowerCaseMessage.includes("bye")) {
